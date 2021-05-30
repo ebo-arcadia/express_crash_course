@@ -12,10 +12,14 @@ const app = express();
 //     response.send(path.join(__dirname, 'public', 'index.html'));
 // });
 
+// body parser middleware
+app.use(express.json());
+app.use(express.urlencoded({extended: false}));
+
 // set static folder / server
 app.use(express.static(path.join(__dirname, 'public')));
 
-// members API routes
+// members API routes 
 app.use('/api/members', require('./routes/api/members'));
 
 const PORT = process.env.PORT || 5000;
