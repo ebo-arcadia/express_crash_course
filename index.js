@@ -1,19 +1,11 @@
 const express = require('express');
 const path = require('path')
-const members = require('./Members')
+const logger = require('./middleware/logger');
 
 const app = express();
 
-const logger = (req, res, next) => {
-    console.log(`${req.protocol}://${req.get('host')}${req.originalUrl}`);
-    next();
-}
-
 // init middleware
-app.use(logger);
-
-// create routes to get all members
-app.get('/api/members', (request, response) => response.json(members));
+// app.use(logger);
 
 // static folder
 // app.get('/', (request, response) => {
@@ -21,7 +13,10 @@ app.get('/api/members', (request, response) => response.json(members));
 // });
 
 // set static folder / server
-app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static(path.join(__dirname, 'public')));
+
+// members API routes
+app.use('/api/members', require('./routes/api/members'));
 
 const PORT = process.env.PORT || 5000;
 
