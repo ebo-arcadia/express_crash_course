@@ -1,11 +1,16 @@
 const express = require('express');
 const path = require('path')
 const logger = require('./middleware/logger');
+const exphbs = require('express-handlebars');
 
 const app = express();
 
 // init middleware
 // app.use(logger);
+
+// handlebars middleware
+app.engine('handlebars', exphbs());
+app.set('view engine', 'handlebars');
 
 // static folder
 // app.get('/', (request, response) => {
@@ -18,6 +23,9 @@ app.use(express.urlencoded({extended: false}));
 
 // set static folder / server
 app.use(express.static(path.join(__dirname, 'public')));
+
+// home page route
+app.get('/', (req, res) => res.render('index'));
 
 // members API routes 
 app.use('/api/members', require('./routes/api/members'));
