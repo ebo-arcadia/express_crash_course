@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path')
 const logger = require('./middleware/logger');
 const exphbs = require('express-handlebars');
+const members = require('./Members');
 
 const app = express();
 
@@ -25,7 +26,11 @@ app.use(express.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // home page route
-app.get('/', (req, res) => res.render('index'));
+app.get('/', (req, res) => res.render('index', {
+    title: 'memebr app',
+    members
+})
+);
 
 // members API routes 
 app.use('/api/members', require('./routes/api/members'));
